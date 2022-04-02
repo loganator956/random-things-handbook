@@ -1,0 +1,115 @@
+# 1 Growing Software RAID Arrays with mdadm
+
+- [1 Growing Software RAID Arrays with mdadm](#1-growing-software-raid-arrays-with-mdadm)
+  - [1.1 Swapping Disks/Partitions](#11-swapping-diskspartitions)
+    - [1.1.1 Checking Array Status](#111-checking-array-status)
+    - [1.1.2 Removing a Partition/Drive](#112-removing-a-partitiondrive)
+    - [1.1.3 Increase Partition Size](#113-increase-partition-size)
+    - [1.1.4 Add a Partition/Drive](#114-add-a-partitiondrive)
+  - [1.2 Growing RAID Array](#12-growing-raid-array)
+    - [1.2.1 Checking Array Status](#121-checking-array-status)
+    - [1.2.2 Check Size of Array](#122-check-size-of-array)
+    - [1.2.3 Grow the Array](#123-grow-the-array)
+      - [1.2.3.4 Growing to the Max](#1234-growing-to-the-max)
+      - [1.2.3.5 Growing to Specific Size](#1235-growing-to-specific-size)
+  - [1.3 Growing the Array's File System](#13-growing-the-arrays-file-system)
+    - [1.3.1 Growing Ext2, Ext3, Ext4 File Systems](#131-growing-ext2-ext3-ext4-file-systems)
+  - [1.4 References](#14-references)
+
+## 1.1 Swapping Disks/Partitions
+
+### 1.1.1 Checking Array Status
+
+**IMPORTANT** Check to ensure that the array is consistent and synchronised!
+
+```bash
+$ cat /proc/mdstat
+```
+
+If the output shows the array is syncrhonizing, then you **MUST** wait for that to complete.
+
+### 1.1.2 Removing a Partition/Drive
+
+Replace `/dev/md0` and `/dev/sda1` with the RAID array and partition/drive device files, respectively.
+Must both fail and remove the drive.
+
+```bash
+$ sudo mdadm /dev/md0 --fail /dev/sda1 --remove /dev/sda1
+```
+
+### 1.1.3 Increase Partition Size
+
+This is where you will either increase the partition size or replace the drive.
+
+### 1.1.4 Add a Partition/Drive
+
+Replace `/dev/md0` and `/dev/sda1` with the RAID array and partition/drive device files, respectively.
+
+```bash
+$ sudo mdadm -a /dev/md0 /dev/sda1
+```
+
+**IMPORTANT** Wait until the array has finished synchronising and is consistent **before** repeating!
+Repeat steps from [section1.1.1](#111-checking-array-status) until all drives/partitions have been resized as desired.
+
+## 1.2 Growing RAID Array
+
+### 1.2.1 Checking Array Status
+
+**IMPORTANT** Check to ensure that the array is consistent and synchronised!
+
+```bash
+$ cat /proc/mdstat
+```
+
+### 1.2.2 Check Size of Array
+
+Replace `/dev/md0` with the RAID array device file.
+
+```bash
+$ sudo mdadm -D /dev/md0 | grep -e "Array Size" -e "Dev Size"
+```
+
+### 1.2.3 Grow the Array
+
+You can either `grow` the array to the `max` or specify a `size`.
+
+#### 1.2.3.4 Growing to the Max
+
+Replace `/dev/md0` with the RAID array device file.
+
+```bash
+$ sudo mdadm --grow /dev/md0 -z max
+```
+
+#### 1.2.3.5 Growing to Specific Size
+
+```bash
+$ sudo mdadm --grow /dev/md0 -z SIZE
+```
+
+## 1.3 Growing the Array's File System
+
+### 1.3.1 Growing Ext2, Ext3, Ext4 File Systems
+
+Would be best to make sure that the file system isn't mounted. Could use `lsblk` or some other tool.
+
+If you want to resize to **fill** the array's partition
+
+```bash
+$ sudo resize2fs /dev/sda1
+```
+
+If you want to resize to a particular size
+
+```bash
+$ sudo resize2fs /dev/sda1 SIZE
+```
+
+"The SIZE parameter specifies the requested new size of the file system. If no units are specified, the unit of the size parameter is the block size of the file system. Optionally, the size parameter can be suffixed by one of the following unit designators: s for 512 byte sectors; K for kilobytes (1 kilobyte is 1024 bytes); M for megabytes; or G for gigabytes." (SUSE Documentation, 2022)
+
+## 1.4 References
+
+- SUSE Documentation. 2022. Resizing File Systems. [online] Available at: <https://documentation.suse.com/sles/12-SP4/html/SLES-all/cha-resize-fs.html#sec-resize-fs-ext> [Accessed 2 April 2022].
+- SUSE Documentation. 2022. Resizing Software RAID Arrays with mdadm. [online] Available at: <https://documentation.suse.com/sles/12-SP4/html/SLES-all/cha-resize-fs.html#sec-resize-fs-ext> [Accessed 2 April 2022].
+- <https://documentation.suse.com/sles/12-SP4/html/SLES-all/cha-resize-fs.html#sec-resize-fs-ext>
