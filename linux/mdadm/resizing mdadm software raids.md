@@ -110,6 +110,5 @@ $ sudo resize2fs /dev/sda1 SIZE
 
 ## 1.4 References
 
-- SUSE Documentation. 2022. Resizing File Systems. [online] Available at: <https://documentation.suse.com/sles/12-SP4/html/SLES-all/cha-resize-fs.html#sec-resize-fs-ext> [Accessed 2 April 2022].
-- SUSE Documentation. 2022. Resizing Software RAID Arrays with mdadm. [online] Available at: <https://documentation.suse.com/sles/12-SP4/html/SLES-all/cha-resize-fs.html#sec-resize-fs-ext> [Accessed 2 April 2022].
-- <https://documentation.suse.com/sles/12-SP4/html/SLES-all/cha-resize-fs.html#sec-resize-fs-ext>
+- SUSE. (2022) Resizing File Systems, *SUSE Documentation*. [online] Available at: <https://documentation.suse.com/sles/12-SP4/html/SLES-all/cha-resize-fs.html#sec-resize-fs-ext> [Accessed 2 April 2022]
+- SUSE. (2022) Resizing Software RAID Arrays with mdadm, *SUSE Documentation*. [online] Available at: <https://documentation.suse.com/sles/12-SP4/html/SLES-all/cha-resize-fs.html#sec-resize-fs-ext> [Accessed 2 April 2022]
