@@ -4,8 +4,9 @@
   - [1.1 Swapping Disks/Partitions](#11-swapping-diskspartitions)
     - [1.1.1 Checking Array Status](#111-checking-array-status)
     - [1.1.2 Removing a Partition/Drive](#112-removing-a-partitiondrive)
-    - [1.1.3 Increase Partition Size](#113-increase-partition-size)
-    - [1.1.4 Add a Partition/Drive](#114-add-a-partitiondrive)
+    - [1.1.3 Zero Superblock of removed drive](#113-zero-superblock-of-removed-drive)
+    - [1.1.4 Increase Partition Size](#114-increase-partition-size)
+    - [1.1.5 Add a Partition/Drive](#115-add-a-partitiondrive)
   - [1.2 Growing RAID Array](#12-growing-raid-array)
     - [1.2.1 Checking Array Status](#121-checking-array-status)
     - [1.2.2 Check Size of Array](#122-check-size-of-array)
@@ -37,11 +38,21 @@ Must both fail and remove the drive.
 sudo mdadm /dev/md0 --fail /dev/sda1 --remove /dev/sda1
 ```
 
-### 1.1.3 Increase Partition Size
+### 1.1.3 Zero Superblock of removed drive
+
+Now that the drive has been removed, in order to use it again, you must zero the superblock of the **removed** drive.
+
+Replace `/dev/sda1` with the RAID array and partition/drive device files, respectively.
+
+```bash
+sudo mdadm --zero-superblock /dev/sda1
+```
+
+### 1.1.4 Increase Partition Size
 
 This is where you will either increase the partition size or replace the drive.
 
-### 1.1.4 Add a Partition/Drive
+### 1.1.5 Add a Partition/Drive
 
 Replace `/dev/md0` and `/dev/sda1` with the RAID array and partition/drive device files, respectively.
 
