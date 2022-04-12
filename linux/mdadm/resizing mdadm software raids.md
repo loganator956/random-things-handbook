@@ -23,7 +23,7 @@
 **IMPORTANT** Check to ensure that the array is consistent and synchronised!
 
 ```bash
-$ cat /proc/mdstat
+cat /proc/mdstat
 ```
 
 If the output shows the array is syncrhonizing, then you **MUST** wait for that to complete.
@@ -34,7 +34,7 @@ Replace `/dev/md0` and `/dev/sda1` with the RAID array and partition/drive devic
 Must both fail and remove the drive.
 
 ```bash
-$ sudo mdadm /dev/md0 --fail /dev/sda1 --remove /dev/sda1
+sudo mdadm /dev/md0 --fail /dev/sda1 --remove /dev/sda1
 ```
 
 ### 1.1.3 Increase Partition Size
@@ -46,7 +46,7 @@ This is where you will either increase the partition size or replace the drive.
 Replace `/dev/md0` and `/dev/sda1` with the RAID array and partition/drive device files, respectively.
 
 ```bash
-$ sudo mdadm -a /dev/md0 /dev/sda1
+sudo mdadm -a /dev/md0 /dev/sda1
 ```
 
 **IMPORTANT** Wait until the array has finished synchronising and is consistent **before** repeating!
@@ -59,7 +59,7 @@ Repeat steps from [section1.1.1](#111-checking-array-status) until all drives/pa
 **IMPORTANT** Check to ensure that the array is consistent and synchronised!
 
 ```bash
-$ cat /proc/mdstat
+cat /proc/mdstat
 ```
 
 ### 1.2.2 Check Size of Array
@@ -67,7 +67,7 @@ $ cat /proc/mdstat
 Replace `/dev/md0` with the RAID array device file.
 
 ```bash
-$ sudo mdadm -D /dev/md0 | grep -e "Array Size" -e "Dev Size"
+sudo mdadm -D /dev/md0 | grep -e "Array Size" -e "Dev Size"
 ```
 
 ### 1.2.3 Grow the Array
@@ -79,13 +79,13 @@ You can either `grow` the array to the `max` or specify a `size`.
 Replace `/dev/md0` with the RAID array device file.
 
 ```bash
-$ sudo mdadm --grow /dev/md0 -z max
+sudo mdadm --grow /dev/md0 -z max
 ```
 
 #### 1.2.3.5 Growing to Specific Size
 
 ```bash
-$ sudo mdadm --grow /dev/md0 -z SIZE
+sudo mdadm --grow /dev/md0 -z SIZE
 ```
 
 ## 1.3 Growing the Array's File System
@@ -97,13 +97,14 @@ Would be best to make sure that the file system isn't mounted. Could use `lsblk`
 If you want to resize to **fill** the array's partition
 
 ```bash
-$ sudo resize2fs /dev/sda1
+sudo resize2fs /dev/sda1
+
 ```
 
 If you want to resize to a particular size
 
 ```bash
-$ sudo resize2fs /dev/sda1 SIZE
+sudo resize2fs /dev/sda1 SIZE
 ```
 
 "The SIZE parameter specifies the requested new size of the file system. If no units are specified, the unit of the size parameter is the block size of the file system. Optionally, the size parameter can be suffixed by one of the following unit designators: s for 512 byte sectors; K for kilobytes (1 kilobyte is 1024 bytes); M for megabytes; or G for gigabytes." (SUSE Documentation, 2022)
