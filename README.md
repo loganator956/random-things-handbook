@@ -4,8 +4,9 @@
 
 ### Linux
 
+- [Linux](linux/README.md)
 - [Linux/mdadm](linux/mdadm/README.md)
 
 ### Writing
 
-- [Writing/Referencing](writing/1.referencing.md)
+- [Writing](writing/README.md)
