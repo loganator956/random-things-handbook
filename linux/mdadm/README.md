@@ -4,7 +4,7 @@
 
 ## Contents
 
-- ["1. Resizing mdadm software raids.md"](resizing%20mdadm%20software%20raids.md)
+- ["1. Grow RAID Array"](1.grow-raid.md)
 
 ## 1.1 References
 
